@@ -98,28 +98,34 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "ProductsList",
-          "target": "ProductsList"
+          "name": "HeaderList",
+          "target": "HeaderList"
         },
         {
-          "pattern": "Products({key}):?query:",
-          "name": "ProductsObjectPage",
-          "target": "ProductsObjectPage"
+          "pattern": "Header({key}):?query:",
+          "name": "HeaderObjectPage",
+          "target": "HeaderObjectPage"
+        },
+        {
+          "pattern": "Header({key})/versions({key2}):?query:",
+          "name": "VersionsObjectPage",
+          "target": "VersionsObjectPage"
         }
       ],
       "targets": {
-        "ProductsList": {
+        "HeaderList": {
           "type": "Component",
-          "id": "ProductsList",
+          "id": "HeaderList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "contextPath": "/Products",
-              "variantManagement": "Page",
+              "contextPath": "/Header",
+              "variantManagement": "None",
+              "initialLoad": true,
               "navigation": {
-                "Products": {
+                "Header": {
                   "detail": {
-                    "route": "ProductsObjectPage"
+                    "route": "HeaderObjectPage"
                   }
                 }
               },
@@ -133,14 +139,32 @@
             }
           }
         },
-        "ProductsObjectPage": {
+        "HeaderObjectPage": {
           "type": "Component",
-          "id": "ProductsObjectPage",
+          "id": "HeaderObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
+              "contextPath": "/Header",
               "editableHeaderContent": false,
-              "contextPath": "/Products"
+              "navigation": {
+                "versions": {
+                  "detail": {
+                    "route": "VersionsObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "VersionsObjectPage": {
+          "type": "Component",
+          "id": "VersionsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Header/versions",
+              "editableHeaderContent": false
             }
           }
         }

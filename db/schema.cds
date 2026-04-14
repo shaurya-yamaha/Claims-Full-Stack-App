@@ -10,11 +10,11 @@ entity Header : cuid, managed {
   claim_type        : String(4);
   processing_status : String(4);
 
-  versions : Composition of many Version
-               on versions.header = $self;
+  versions          : Composition of many Versions
+                        on versions.header = $self;
 }
 
-entity Version : cuid, managed {
+entity Versions : cuid, managed {
   version_no     : Integer;
   distributor    : Integer;
   Rep_start_date : Date;
@@ -26,25 +26,41 @@ entity Version : cuid, managed {
   symptom_code   : String(2);
   cond_code      : String(2);
 
-  header : Association to Header;
+  header         : Association to Header;
 
-  items : Composition of many Items
-            on items.version = $self;
+  materials_asc  : Composition of many Materials
+                     on materials_asc.version = $self;
+
+  services_asc   : Composition of many Services
+                     on services_asc.version = $self;
+
+  sublets_asc    : Composition of many Sublets
+                     on sublets_asc.version = $self;
 }
 
-entity Items : cuid, managed {
-  item_no       : Integer;
-  mat_no        : String(20);
-  mat_desc      : String(50);
-  mat_quantity  : Integer;
+entity Materials : cuid, managed {
+  item_no      : Integer;
+  mat_no       : String(20);
+  mat_desc     : String(50);
+  mat_quantity : Integer;
 
-  labor_code    : Integer;
-  lc_desc       : String(50);
-  labor_hours   : Integer;
+  version      : Association to Versions;
+}
 
+entity Services : cuid, managed {
+
+  labor_code  : Integer;
+  lc_desc     : String(50);
+  labor_hours : Integer;
+  lc_quantity : Integer;
+
+  version     : Association to Versions;
+}
+
+entity Sublets : cuid, managed {
   subl_codes    : String(5);
   subl_desc     : String(50);
   subl_quantity : Integer;
 
-  version : Association to Version;
+  version       : Association to Versions;
 }

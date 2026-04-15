@@ -20,6 +20,45 @@ annotate CatalogService.Header with {
   claim              @Common.Label: 'Claim Number'
 };
 
+annotate CatalogService.Header with {
+  processing_status @(Common.ValueList: {
+    CollectionPath: 'ProcessingStatus',
+    Parameters    : [
+      {
+        $Type            : 'Common.ValueListParameterInOut',
+        LocalDataProperty: processing_status_code,
+        ValueListProperty: 'code'
+      },
+      {
+        $Type            : 'Common.ValueListParameterDisplayOnly',
+        ValueListProperty: 'text'
+      }
+    ]
+  });
+};
+
+annotate CatalogService.Header with {
+  processing_status @Common.Text: processing_status.text;
+  claim_type        @Common.Text: claim_type.text;
+};
+
+annotate CatalogService.Header with {
+  claim_type @(Common.ValueList: {
+    CollectionPath: 'ClaimTypes',
+    Parameters    : [
+      {
+        $Type            : 'Common.ValueListParameterInOut',
+        LocalDataProperty: claim_type_code,
+        ValueListProperty: 'code'
+      },
+      {
+        $Type            : 'Common.ValueListParameterDisplayOnly',
+        ValueListProperty: 'text'
+      }
+    ]
+  });
+};
+
 annotate CatalogService.Header with @(UI: {
 
   SelectionFields : [
@@ -30,8 +69,9 @@ annotate CatalogService.Header with @(UI: {
   LineItem        : [
     {Value: claim},
     {Value: chassis_no},
-    {Value: claim_type},
-    {Value: dealer}
+    {Value: claim_type_code},
+    {Value: dealer},
+    {Value: processing_status_code}
   ],
 
   HeaderInfo      : {
@@ -43,38 +83,41 @@ annotate CatalogService.Header with @(UI: {
   Facets          : [
     {
       $Type : 'UI.ReferenceFacet',
-      Label : 'Main Data',
+      Label : 'Header Details',
       Target: '@UI.FieldGroup#Main'
     },
     {
       $Type : 'UI.ReferenceFacet',
-      Label : 'Versions',
+      Label : 'Version Details',
       Target: 'versions/@UI.LineItem'
     }
   ],
 
-  FieldGroup #Main: {Data: [
-    {
-      Value: claim,
-      Label: 'Claim Number'
-    },
-    {
-      Value: chassis_no,
-      Label: 'VIN Number'
-    },
-    {
-      Value: claim_type,
-      Label: 'Claim Type'
-    },
-    {
-      Value: dealer,
-      Label: 'Dealer'
-    },
-    {
-      Value: processing_status,
-      Label: 'Processing Status'
-    }
-  ]}
+  FieldGroup #Main: {
+    Label: 'Header Details',
+    Data : [
+      {
+        Value: claim,
+        Label: 'Claim Number'
+      },
+      {
+        Value: chassis_no,
+        Label: 'VIN Number'
+      },
+      {
+        Value: claim_type_code,
+        Label: 'Claim Type'
+      },
+      {
+        Value: dealer,
+        Label: 'Dealer'
+      },
+      {
+        Value: processing_status_code,
+        Label: 'Processing Status'
+      }
+    ]
+  }
 });
 
 // for making field non editable

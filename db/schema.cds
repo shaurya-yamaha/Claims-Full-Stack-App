@@ -7,8 +7,8 @@ entity Header : cuid, managed {
   claim             : Integer;
   chassis_no        : String(100);
   dealer            : String(10);
-  claim_type        : String(4);
-  processing_status : String(4);
+  claim_type        : Association to ClaimTypes;
+  processing_status : Association to ProcessingStatus;
 
   versions          : Composition of many Versions
                         on versions.header = $self;
@@ -62,4 +62,14 @@ entity Sublets : cuid, managed {
   subl_quantity : Integer;
 
   version       : Association to Versions;
+}
+
+entity ProcessingStatus {
+  key code : String(10);
+      text : String(50);
+}
+
+entity ClaimTypes {
+  key code : String(4);
+      text : String(50);
 }

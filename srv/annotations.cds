@@ -101,6 +101,10 @@ annotate CatalogService.Header with @(UI: {
   ]}
 });
 
+annotate CatalogService.Versions with {
+  appl_date @Core.Computed;
+};
+
 annotate CatalogService.Versions with @(UI: {
   HeaderInfo      : {
     TypeName      : 'Claim Version Detail',

@@ -19,10 +19,19 @@ module.exports = cds.service.impl(async function () {
 		}
 
 		req.data.claim = nextClaim;
+
+		// for handling version fields
+		const versions = req.data.versions;
+		if(versions && versions.length > 0) {
+			versions.forEach((v) => {
+				const today = new Date().toISOString().split('T')[0];
+				v.appl_date = today;
+			})
+		}
 	});
 
 	// update methods
-	this.before('UPDATE', Header, async (req) => {
+	this.before(['CREATE', 'UPDATE'], Header, async (req) => {
 
 		// using custom error messages for chassis number length
 		if (req.data.chassis_no.length > 18) {
@@ -30,6 +39,22 @@ module.exports = cds.service.impl(async function () {
 		}
 
 		console.log(req.data.versions);
+		// for handling version fields
+		const versions = req.data.versions;
+		if(versions && versions.length > 0) {
+			versions.forEach((v) => {
+				const today = new Date().toISOString().split('T')[0];
+				v.appl_date = today;
+			})
+		}
 	})
+
+	this.before(['CREATE', 'UPDATE'], 'Versions', (req) => {
+
+		// Set current date
+		const today = new Date().toISOString().split('T')[0];
+
+		req.data.appl_date = today;
+	});
 
 });

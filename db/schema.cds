@@ -9,6 +9,7 @@ entity Header : cuid, managed {
   dealer            : String(10);
   claim_type        : Association to ClaimTypes;
   processing_status : Association to ProcessingStatus;
+  criticality       : Integer;
 
   versions          : Composition of many Versions
                         on versions.header = $self;

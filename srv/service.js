@@ -22,7 +22,7 @@ module.exports = cds.service.impl(async function () {
 
 		// for handling version fields
 		const versions = req.data.versions;
-		if(versions && versions.length > 0) {
+		if (versions && versions.length > 0) {
 			versions.forEach((v) => {
 				const today = new Date().toISOString().split('T')[0];
 				v.appl_date = today;
@@ -41,7 +41,7 @@ module.exports = cds.service.impl(async function () {
 		// console.log(req.data.versions);
 		// for handling version fields
 		const versions = req.data.versions;
-		if(versions && versions.length > 0) {
+		if (versions && versions.length > 0) {
 			versions.forEach((v) => {
 				const today = new Date().toISOString().split('T')[0];
 				v.appl_date = today;
@@ -55,4 +55,22 @@ module.exports = cds.service.impl(async function () {
 		req.data.appl_date = today;
 	});
 
+	this.after('READ', 'Header', (data) => {
+
+		const records = Array.isArray(data) ? data : [data];
+
+		records.forEach(d => {
+			switch (d.processing_status_code) {
+				case 'APPR':
+					d.criticality = 3; // Green
+					break;
+				case 'WAIT':
+					d.criticality = 2; // Yellow
+					break;
+				case 'REJE':
+					d.criticality = 1; // Red
+					break;
+			}
+		});
+	});
 });

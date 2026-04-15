@@ -21,6 +21,10 @@ annotate CatalogService.Header with {
 };
 
 annotate CatalogService.Header with {
+  criticality @Core.Computed;
+};
+
+annotate CatalogService.Header with {
   processing_status @(
     Common.ValueListWithFixedValues: true,
     Common.ValueList: {
@@ -41,6 +45,7 @@ annotate CatalogService.Header with {
 
 annotate CatalogService.Header with {
   processing_status @Common.Text: processing_status.text;
+  processing_status @Common.TextArrangement: #TextOnly;
   claim_type        @Common.Text: claim_type.text;
 };
 
@@ -73,7 +78,11 @@ annotate CatalogService.Header with @(UI: {
     {Value: chassis_no},
     {Value: claim_type_code},
     {Value: dealer},
-    {Value: processing_status_code}
+    {
+      Value: processing_status_code,
+      Label: 'Processing Status',
+      Criticality: criticality,
+    }
   ],
 
   HeaderInfo      : {

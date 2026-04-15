@@ -2,23 +2,34 @@ const cds = require('@sap/cds');
 
 module.exports = cds.service.impl(async function () {
 
-  const { Header } = this.entities;
+	const { Header } = this.entities;
 
-  this.before('CREATE', Header, async (req) => {
+	this.before('CREATE', Header, async (req) => {
 
-  const tx = cds.transaction(req);
+		const tx = cds.transaction(req);
 
-  const result = await tx.run(
-    SELECT.from(Header).columns('claim').orderBy('claim desc').limit(1)
-  );
+		const result = await tx.run(
+			SELECT.from(Header).columns('claim').orderBy('claim desc').limit(1)
+		);
 
-  let nextClaim = 1;
+		let nextClaim = 1;
 
-  if (result.length > 0 && result[0].claim) {
-    nextClaim = result[0].claim + 1;
-  }
+		if (result.length > 0 && result[0].claim) {
+			nextClaim = result[0].claim + 1;
+		}
 
-  req.data.claim = nextClaim;
-});
+		req.data.claim = nextClaim;
+	});
+
+	// update methods
+	this.before('UPDATE', Header, async (req) => {
+
+		// using custom error messages for chassis number length
+		if (req.data.chassis_no.length > 18) {
+			req.error(400, 'Chassis Number is too long');
+		}
+
+		console.log(req.data.versions);
+	})
 
 });

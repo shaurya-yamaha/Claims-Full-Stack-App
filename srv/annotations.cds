@@ -9,13 +9,23 @@ using {CatalogService} from './service';
 //   claim @Core.Computed;
 // };
 
-// to hide claim field while creating 
+// to hide claim field while creating
 annotate CatalogService.Header with {
-  claim @UI.Hidden: { $edmJson: { $If: [
-    { $Eq: [ { $Path: 'IsActiveEntity' }, false ] },
+  claim @UI.Hidden: {$edmJson: {$If: [
+    {$Eq: [
+      {$Path: 'IsActiveEntity'},
+      false
+    ]},
     true,
     false
   ]}};
+};
+
+annotate CatalogService.Header with {
+  chassis_no        @mandatory;
+  dealer            @mandatory;
+  claim_type        @mandatory;
+  processing_status @mandatory;
 };
 
 annotate CatalogService.Header with @(UI: {
@@ -41,6 +51,10 @@ annotate CatalogService.Header with @(UI: {
     {
       Value: dealer,
       Label: 'Dealer'
+    },
+    {
+      Value: processing_status,
+      Label: 'Processing Status'
     }
   ],
 
@@ -79,6 +93,10 @@ annotate CatalogService.Header with @(UI: {
     {
       Value: dealer,
       Label: 'Dealer'
+    },
+    {
+      Value: processing_status,
+      Label: 'Processing Status'
     }
   ]}
 });

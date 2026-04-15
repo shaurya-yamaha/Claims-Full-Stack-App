@@ -21,7 +21,9 @@ annotate CatalogService.Header with {
 };
 
 annotate CatalogService.Header with {
-  processing_status @(Common.ValueList: {
+  processing_status @(
+    Common.ValueListWithFixedValues: true,
+    Common.ValueList: {
     CollectionPath: 'ProcessingStatus',
     Parameters    : [
       {

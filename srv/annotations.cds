@@ -1,8 +1,22 @@
 using {CatalogService} from './service';
 
+// to make claim field non-editable
+// annotate CatalogService.Header with {
+//   claim @UI.ReadOnly;
+// }
+
+// annotate CatalogService.Header with {
+//   claim @Core.Computed;
+// };
+
+// to hide claim field while creating 
 annotate CatalogService.Header with {
-  claim @UI.ReadOnly;
-}
+  claim @UI.Hidden: { $edmJson: { $If: [
+    { $Eq: [ { $Path: 'IsActiveEntity' }, false ] },
+    true,
+    false
+  ]}};
+};
 
 annotate CatalogService.Header with @(UI: {
 

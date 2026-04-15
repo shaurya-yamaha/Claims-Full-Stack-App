@@ -22,4 +22,5 @@ service CatalogService {
   entity Sublets          as projection on Warranty.Sublets;
   entity ProcessingStatus as projection on Warranty.ProcessingStatus;
   entity ClaimTypes       as projection on Warranty.ClaimTypes;
+  entity Dealer           as projection on Warranty.Dealer;
 }

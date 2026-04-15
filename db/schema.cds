@@ -6,7 +6,7 @@ using {cuid} from '@sap/cds/common';
 entity Header : cuid, managed {
   claim             : Integer;
   chassis_no        : String(100);
-  dealer            : String(10);
+  dealer            : Association to Dealer;
   claim_type        : Association to ClaimTypes;
   processing_status : Association to ProcessingStatus;
   criticality       : Integer;
@@ -72,5 +72,10 @@ entity ProcessingStatus {
 
 entity ClaimTypes {
   key code : String(4);
+      text : String(50);
+}
+
+entity Dealer {
+  key code : String(10);
       text : String(50);
 }

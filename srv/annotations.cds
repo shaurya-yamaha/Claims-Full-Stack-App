@@ -21,6 +21,10 @@ annotate CatalogService.Header with {
 };
 
 annotate CatalogService.Header with {
+  dealer @Common.Text: dealer.text;
+};
+
+annotate CatalogService.Header with {
   criticality @Core.Computed;
 };
 
@@ -33,6 +37,25 @@ annotate CatalogService.Header with {
       {
         $Type            : 'Common.ValueListParameterInOut',
         LocalDataProperty: processing_status_code,
+        ValueListProperty: 'code'
+      },
+      {
+        $Type            : 'Common.ValueListParameterDisplayOnly',
+        ValueListProperty: 'text'
+      }
+    ]
+  });
+};
+
+annotate CatalogService.Header with {
+  dealer @(
+    Common.ValueListWithFixedValues: true,
+    Common.ValueList: {
+    CollectionPath: 'Dealer',
+    Parameters    : [
+      {
+        $Type            : 'Common.ValueListParameterInOut',
+        LocalDataProperty: dealer_code,
         ValueListProperty: 'code'
       },
       {
@@ -77,7 +100,7 @@ annotate CatalogService.Header with @(UI: {
     {Value: claim},
     {Value: chassis_no},
     {Value: claim_type_code},
-    {Value: dealer},
+    {Value: dealer_code},
     {
       Value: processing_status_code,
       Label: 'Processing Status',
@@ -120,7 +143,7 @@ annotate CatalogService.Header with @(UI: {
         Label: 'Claim Type'
       },
       {
-        Value: dealer,
+        Value: dealer_code,
         Label: 'Dealer'
       },
       {

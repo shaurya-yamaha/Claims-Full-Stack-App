@@ -1,14 +1,5 @@
 using {CatalogService} from './service';
 
-// to make claim field non-editable
-// annotate CatalogService.Header with {
-//   claim @UI.ReadOnly;
-// }
-
-// annotate CatalogService.Header with {
-//   claim @Core.Computed;
-// };
-
 // to hide claim field while creating
 annotate CatalogService.Header with {
   claim @UI.Hidden: {$edmJson: {$If: [
@@ -22,10 +13,11 @@ annotate CatalogService.Header with {
 };
 
 annotate CatalogService.Header with {
-  chassis_no        @mandatory;
-  dealer            @mandatory;
-  claim_type        @mandatory;
-  processing_status @mandatory;
+  chassis_no         @mandatory  @Common.Label: 'Chassis Number';
+  dealer             @mandatory  @Common.Label: 'Dealer';
+  claim_type         @mandatory  @Common.Label: 'Claim Type';
+  processing_status  @mandatory  @Common.Label: 'Processing Status';
+  claim              @Common.Label: 'Claim Number'
 };
 
 annotate CatalogService.Header with @(UI: {
@@ -36,26 +28,10 @@ annotate CatalogService.Header with @(UI: {
   ],
 
   LineItem        : [
-    {
-      Value: claim,
-      Label: 'Claim Number'
-    },
-    {
-      Value: chassis_no,
-      Label: 'VIN Number'
-    },
-    {
-      Value: claim_type,
-      Label: 'Claim Type'
-    },
-    {
-      Value: dealer,
-      Label: 'Dealer'
-    },
-    {
-      Value: processing_status,
-      Label: 'Processing Status'
-    }
+    {Value: claim},
+    {Value: chassis_no},
+    {Value: claim_type},
+    {Value: dealer}
   ],
 
   HeaderInfo      : {
@@ -101,6 +77,7 @@ annotate CatalogService.Header with @(UI: {
   ]}
 });
 
+// for making field non editable
 annotate CatalogService.Versions with {
   appl_date @Core.Computed;
 };

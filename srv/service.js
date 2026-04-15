@@ -38,7 +38,7 @@ module.exports = cds.service.impl(async function () {
 			req.error(400, 'Chassis Number is too long');
 		}
 
-		console.log(req.data.versions);
+		// console.log(req.data.versions);
 		// for handling version fields
 		const versions = req.data.versions;
 		if(versions && versions.length > 0) {
@@ -50,10 +50,8 @@ module.exports = cds.service.impl(async function () {
 	})
 
 	this.before(['CREATE', 'UPDATE'], 'Versions', (req) => {
-
-		// Set current date
+		// Set application date to current date
 		const today = new Date().toISOString().split('T')[0];
-
 		req.data.appl_date = today;
 	});
 

@@ -148,7 +148,8 @@ annotate CatalogService.Header with @(UI: {
       },
       {
         Value: processing_status_code,
-        Label: 'Processing Status'
+        Label: 'Processing Status',
+        Criticality: criticality,
       }
     ]
   }

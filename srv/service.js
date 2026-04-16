@@ -73,4 +73,10 @@ module.exports = cds.service.impl(async function () {
 			}
 		});
 	});
+
+	// for sorting list report on claim number
+	this.on('READ', 'Header', async (req, next) => {
+		req.query.SELECT.orderBy = [{ ref: ['claim'], sort: 'desc' }];
+		return next();
+	});
 });
